@@ -1,4 +1,4 @@
-﻿@model MovieFan.Models.Movie
+﻿@model MovieFan.Models.User
 
 @{
     ViewData["Title"] = "Details";
@@ -6,10 +6,10 @@
 }
 
 <div>
-    <h4>Détails de @Model.Title</h4>
+    <h4>Détails concernant @Model.Firstname @Model.Lastname</h4>
     <hr />
     <div class="row">
-        @Model.Synopsis
+        @(Model.IsAdmin ? "Est un administrateur" : "N'est pas un administrateur")
     </div>
 </div>
 <hr />
