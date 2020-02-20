@@ -10,22 +10,23 @@ namespace MovieFan.Controllers
 {
     public class MovieController : Controller
     {
+        List<Movie> movies = new List<Movie>()
+            {
+                new Movie(1,"Blade Runner"),
+                new Movie(2,"Taxi"),
+                new Movie(3,"Purple Rain")
+            };
+
         // GET: Movie
         public ActionResult Index()
         {
-            List<Movie> movies = new List<Movie>()
-            {
-                new Movie("Blade Runner"),
-                new Movie("Taxi"),
-                new Movie("Purple Rain")
-            };
             return View(movies);
         }
 
         // GET: Movie/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            return View(movies[id-1]);
         }
 
         // GET: Movie/Create

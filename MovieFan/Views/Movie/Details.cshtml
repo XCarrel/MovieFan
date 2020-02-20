@@ -1,0 +1,20 @@
+﻿@model MovieFan.Models.Movie
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h4>Détails de @Model.Title</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-2">
+            @Html.DisplayNameFor(model => model.Id): @Model.Id
+        </dt>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { Model.Id }) |
+    <a asp-action="Index">Back to List</a>
+</div>
