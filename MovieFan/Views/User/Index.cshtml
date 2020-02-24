@@ -1,4 +1,4 @@
-﻿@model List<User>
+﻿@model List<Users>
 @{
     ViewData["Title"] = "Membres";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,7 +6,7 @@
 
     <div class="container">
         <h1>Liste des membres</h1>
-        @foreach (User user in Model)
+        @foreach (Users user in Model)
         {
             <a href="/User/Details/@user.Id">
                 <div class="row border p-3">
