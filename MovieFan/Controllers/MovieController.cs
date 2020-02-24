@@ -10,10 +10,16 @@ namespace MovieFan.Controllers
 {
     public class MovieController : Controller
     {
+        readonly moviefanContext db;
+
+        public MovieController(moviefanContext db)
+        {
+            this.db = db;
+        }
+
         // GET: Movie
         public ActionResult Index()
         {
-            moviefanContext db = new moviefanContext();
             List<Movies> allmovies = db.Movies.ToList();
             return View(allmovies);
         }
@@ -21,7 +27,6 @@ namespace MovieFan.Controllers
         // GET: Movie/Details/5
         public ActionResult Details(int id)
         {
-            moviefanContext db = new moviefanContext();
             Movies movie = db.Movies.Find(id);
             return View(movie);
         }
