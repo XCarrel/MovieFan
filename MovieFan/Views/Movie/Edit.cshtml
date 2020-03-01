@@ -1,0 +1,27 @@
+﻿@model MovieFan.Models.Movies
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div>
+        <h4>Détails de @Model.Title</h4>
+        <hr />
+        <div class="row">
+            @Model.Synopsis
+        </div>
+        <hr />
+        <div class="row">
+            <label class="control-label mr-3">Catégorie:</label>@Model.Category.Name
+        </div>
+        <hr />
+        <div class="row">
+            <label class="control-label mr-3">Rating:</label>@Model.Rating.Name
+        </div>
+    </div>
+<hr />
+<div>
+    @Html.ActionLink("Edit", "Edit", new { Model.Id }) |
+    <a asp-action="Index">Back to List</a>
+</div>

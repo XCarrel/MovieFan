@@ -58,7 +58,8 @@ namespace MovieFan.Controllers
         // GET: Movie/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Movies movie = db.Movies.Include(c => c.Category).Include(r => r.Rating).First(m => m.Id == id);
+            return View(movie);
         }
 
         // POST: Movie/Edit/5
