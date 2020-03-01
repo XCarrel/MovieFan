@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieFan.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MovieFan.Controllers
 {
@@ -21,14 +22,14 @@ namespace MovieFan.Controllers
         // GET: Movie
         public ActionResult Index()
         {
-            List<Movies> allmovies = db.Movies.Include(c => c.Category).Include(r => r.Rating).ToList();
+            List<Movies> allmovies = db.Movies.Include(m => m.Category).Include(m => m.Rating).ToList();
             return View(allmovies);
         }
 
         // GET: Movie/Details/5
         public ActionResult Details(int id)
         {
-            Movies movie = db.Movies.Include(c => c.Category).Include(r => r.Rating).First(m => m.Id == id);
+            Movies movie = db.Movies.Include(m => m.Category).Include(m => m.Rating).First(m => m.Id == id);
             return View(movie);
         }
 
@@ -58,24 +59,28 @@ namespace MovieFan.Controllers
         // GET: Movie/Edit/5
         public ActionResult Edit(int id)
         {
-            Movies movie = db.Movies.Include(c => c.Category).Include(r => r.Rating).First(m => m.Id == id);
+            List<SelectListItem> categories = db.Categories.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }).ToList();
+            ViewBag.Categories = categories;
+            ViewBag.ratings = db.Ratings.ToList();
+            Movies movie = db.Movies.Include(m => m.Category).Include(m => m.Rating).First(m => m.Id == id);
             return View(movie);
         }
 
         // POST: Movie/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult<Movies> Edit(int id, [Bind("Title,Synopsis,CategoryId,RatingId")] Movies movie)
         {
             try
             {
-                // TODO: Add update logic here
-
+                movie.Id = id; // because id isn't bound to the form inputs
+                db.Update(movie);
+                db.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return Edit(id);
             }
         }
 
