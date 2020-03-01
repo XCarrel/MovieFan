@@ -11,10 +11,15 @@ namespace MovieFan.Controllers
 
     public class UserController : Controller
     {
+        readonly moviefanContext db;
+
+        public UserController(moviefanContext db)
+        {
+            this.db = db;
+        }
         // GET: User
         public ActionResult Index()
         {
-            moviefanContext db = new moviefanContext();
             List<Users> users = db.Users.ToList();
             return View(users);
         }
@@ -22,7 +27,6 @@ namespace MovieFan.Controllers
         // GET: User/Details/5
         public ActionResult Details(int id)
         {
-            moviefanContext db = new moviefanContext();
             Users user = db.Users.Find(id);
             return View(user);
         }
