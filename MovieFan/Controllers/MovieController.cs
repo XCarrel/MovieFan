@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieFan.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace MovieFan.Controllers
 {
@@ -20,14 +21,14 @@ namespace MovieFan.Controllers
         // GET: Movie
         public ActionResult Index()
         {
-            List<Movies> allmovies = db.Movies.ToList();
+            List<Movies> allmovies = db.Movies.Include(c => c.Category).Include(r => r.Rating).ToList();
             return View(allmovies);
         }
 
         // GET: Movie/Details/5
         public ActionResult Details(int id)
         {
-            Movies movie = db.Movies.Find(id);
+            Movies movie = db.Movies.Include(c => c.Category).Include(r => r.Rating).First(m => m.Id == id);
             return View(movie);
         }
 
