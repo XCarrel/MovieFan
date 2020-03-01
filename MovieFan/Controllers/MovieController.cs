@@ -76,10 +76,12 @@ namespace MovieFan.Controllers
                 movie.Id = id; // because id isn't bound to the form inputs
                 db.Update(movie);
                 db.SaveChanges();
+                TempData["flashmessage"] = "Changement enregistré";
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
+                TempData["flashmessage"] = "Problème...";
                 return Edit(id);
             }
         }
