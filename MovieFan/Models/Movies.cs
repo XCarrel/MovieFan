@@ -8,9 +8,9 @@ namespace MovieFan.Models
 {
     public partial class Movies
     {
-        public string Likers()
+        public string Likers
         {
-            return String.Join(", ", this.UserLikeMovie.Select(u => u.User.FullName).ToArray());
+            get => String.Join(", ", this.UserLikeMovie.Select(u => u.User.FullName).ToArray());
         }
     }
 }
