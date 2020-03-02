@@ -22,14 +22,22 @@ namespace MovieFan.Controllers
         // GET: Movie
         public ActionResult Index()
         {
-            List<Movies> allmovies = db.Movies.Include(m => m.Category).Include(m => m.Rating).ToList();
+            List<Movies> allmovies = db.Movies
+                .Include(m => m.Category)
+                .Include(m => m.Rating)
+                .ToList();
             return View(allmovies);
         }
 
         // GET: Movie/Details/5
         public ActionResult Details(int id)
         {
-            Movies movie = db.Movies.Include(m => m.Category).Include(m => m.Rating).First(m => m.Id == id);
+            Movies movie = db.Movies
+                .Include(m => m.Category)
+                .Include(m => m.Rating)
+                .Include(m => m.UserLikeMovie)
+                .ThenInclude(ulm => ulm.User)
+                .First(m => m.Id == id);
             return View(movie);
         }
 
