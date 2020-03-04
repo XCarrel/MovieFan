@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "wwwroot/js/movieFan.min.js",
+    "inputFiles": [
+      "js/movieFan.js"
+    ]
+  }
+]
