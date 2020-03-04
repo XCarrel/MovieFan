@@ -7,6 +7,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
+// I will use this space to store the TODO items that I don't know yet where they will go
+// TODO: Merge show and edit pages
+// TODO: Make the flashmessage go away after 3s (js)
+// TODO: Handle a date
+// TODO: Filter on a value that is in a related entity
+// TODO: Add validation rules to a form using annotations
+// TODO: Add authentication
+// TODO: Offer an API helping a new user to pick a username that is available
+
 namespace MovieFan
 {
     public class Program
