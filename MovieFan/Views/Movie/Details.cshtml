@@ -5,27 +5,65 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div>
+<div id="divShow">
+    <div class="row">
         <h4>Détails de @Model.Title</h4>
-        <hr />
-        <div class="row">
-            @Model.Synopsis
-        </div>
-        <hr />
-        <div class="row">
-            <label class="control-label mr-3">Catégorie:</label>@Model.Category.Name
-        </div>
-        <hr />
-        <div class="row">
-            <label class="control-label mr-3">Rating:</label>@Model.Rating.Name
-        </div>
-        <hr />
-        <div class="row">
-            <label class="control-label mr-3">Likers:</label>@String.Join(", ", Model.Likers);
-        </div>
+        <div id="cmdEdit" class="btn btn-sm btn-primary ml-5">Editer</div>
+        <a asp-action="Index" class="btn btn-sm btn-info ml-3">Retour à la liste</a>
     </div>
-<hr />
-<div>
-    <a href="/Movie/Edit/@Model.Id" class="btn btn-primary">Editer</a>
-    <a asp-action="Index" class="btn btn-info">Back to List</a>
+    <hr />
+    <div class="row">
+        @Model.Synopsis
+    </div>
+    <hr />
+    <div class="row">
+        <label class="control-label mr-3">Catégorie:</label>@Model.Category.Name
+    </div>
+    <hr />
+    <div class="row">
+        <label class="control-label mr-3">Rating:</label>@Model.Rating.Name
+    </div>
+    <hr />
+    <div class="row">
+        <label class="control-label mr-3">Likers:</label>@String.Join(", ", Model.Likers);
+    </div>
 </div>
+
+
+<div id="divEdit" class="d-none">
+    <form asp-action="Edit">
+        <div class="row">
+            <h4>Modification de @Model.Title</h4>
+            <input type="submit" class="btn btn-sm btn-success ml-5" value="Enregistrer" />
+            <div id="cmdCancel" class="btn btn-sm btn-info ml-3">Annuler</div>
+        </div>
+        <hr />
+        <div class="form-group row">
+            <label asp-for="Title" class="control-label col-2"></label>
+            <input asp-for="Title" class="form-control col-6" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <hr />
+        <div class="form-group row">
+            <label asp-for="Synopsis" class="control-label col-2"></label>
+            <textarea asp-for="Synopsis" class="form-control col-6">@Model.Synopsis</textarea>
+            <span asp-validation-for="Synopsis" class="text-danger"></span>
+        </div>
+        <hr />
+        <div class="form-group row">
+            <label asp-for="Category" class="control-label col-2"></label>
+            <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control col-6"></select>
+            <span asp-validation-for="Category" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Rating" class="control-label col-2"></label>
+            @foreach (var item in ViewBag.ratings)
+            {
+                <input asp-for="RatingId" type="radio" value="@item.Id" class="form-control ml-3 col-1" /><label class="control-label">@item.Name</label>
+            }
+            <span asp-validation-for="Rating" class="text-danger"></span>
+        </div>
+        <hr />
+    </form>
+</div>
+<hr />

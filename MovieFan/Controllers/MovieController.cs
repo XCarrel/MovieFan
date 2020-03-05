@@ -32,6 +32,9 @@ namespace MovieFan.Controllers
         // GET: Movie/Details/5
         public ActionResult Details(int id)
         {
+            List<SelectListItem> categories = db.Categories.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }).ToList();
+            ViewBag.Categories = categories;
+            ViewBag.ratings = db.Ratings.ToList();
             Movies movie = db.Movies
                 .Include(m => m.Category)
                 .Include(m => m.Rating)
@@ -67,11 +70,16 @@ namespace MovieFan.Controllers
         // GET: Movie/Edit/5
         public ActionResult Edit(int id)
         {
-            List<SelectListItem> categories = db.Categories.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }).ToList();
-            ViewBag.Categories = categories;
-            ViewBag.ratings = db.Ratings.ToList();
-            Movies movie = db.Movies.Include(m => m.Category).Include(m => m.Rating).First(m => m.Id == id);
-            return View(movie);
+            try
+            {
+                // TODO: Add insert logic here
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         // POST: Movie/Edit/5

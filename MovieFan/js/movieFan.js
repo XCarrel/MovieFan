@@ -3,5 +3,10 @@
 // March 2020
 
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('Hello')
+
+    // Show/Edit movie
+    cmdEdit.addEventListener('click', function () {
+        divShow.classList.add('d-none')
+        divEdit.classList.remove('d-none')
+    })
 })
