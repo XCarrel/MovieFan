@@ -93,11 +93,13 @@ namespace MovieFan.Controllers
                 db.Update(movie);
                 db.SaveChanges();
                 TempData["flashmessage"] = "Changement enregistré";
+                TempData["flashmessagetype"] = "info";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
             {
                 TempData["flashmessage"] = "Problème...";
+                TempData["flashmessagetype"] = "danger";
                 Console.WriteLine(e.ToString());
                 return Edit(id);
             }
