@@ -105,12 +105,6 @@ namespace MovieFan.Controllers
             }
         }
 
-        // GET: Movie/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
         // POST: Movie/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -118,13 +112,18 @@ namespace MovieFan.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
-
+                db.Remove(db.Movies.First(m => m.Id == id));
+                db.SaveChanges();
+                TempData["flashmessage"] = "Film supprimé";
+                TempData["flashmessagetype"] = "info";
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                TempData["flashmessage"] = "Problème...";
+                TempData["flashmessagetype"] = "danger";
+                Console.WriteLine(e.ToString());
+                return Edit(id);
             }
         }
     }

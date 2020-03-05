@@ -15,4 +15,8 @@ document.addEventListener('DOMContentLoaded', function () {
         divEdit.classList.add('d-none')
     })
 
+    cmdDelete.addEventListener('click', function () {
+        frmDelete.submit()
+    })
+
 })

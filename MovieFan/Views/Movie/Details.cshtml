@@ -35,7 +35,8 @@
         <div class="row">
             <h4>Modification de @Model.Title</h4>
             <input type="submit" class="btn btn-sm btn-success ml-5" value="Enregistrer" />
-            <div id="cmdCancel" class="btn btn-sm btn-info ml-3">Annuler</div>
+            <div id="cmdCancel" class="btn btn-sm btn-info ml-3 mr-5">Annuler</div>
+            <div id="cmdDelete" class="btn btn-sm btn-danger ml-5">Supprimer</div>
         </div>
         <hr />
         <div class="form-group row">
@@ -67,5 +68,8 @@
         <hr />
     </form>
 </div>
+<form method="post" asp-action="Delete" id="frmDelete" class="d-none">
+    <input type="hidden" name="id" value="@Model.Id" />
+</form>
 <hr />
 <script src="\js\showedit.min.js"></script>
