@@ -95,9 +95,10 @@ namespace MovieFan.Controllers
                 TempData["flashmessage"] = "Changement enregistré";
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
                 TempData["flashmessage"] = "Problème...";
+                Console.WriteLine(e.ToString());
                 return Edit(id);
             }
         }
