@@ -437,6 +437,14 @@
     <PackageReference Include="Npm" Version="3.5.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="assets\" />
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="xcopy /E /I /Y $(ProjectDir)assets $(ProjectDir)wwwroot\assets" />
+  </Target>
+
 
 
 </Project>
