@@ -15,6 +15,10 @@
         </div>
         <hr />
         <div class="row">
+            <label class="control-label mr-3">Date:</label>@String.Format("{0:dddd, dd MMMM yyyy}",Model.ReleaseDate)
+        </div>
+        <hr />
+        <div class="row">
             @Model.Synopsis
         </div>
         <hr />
@@ -55,6 +59,12 @@
             <label asp-for="Title" class="control-label col-2"></label>
             <input asp-for="Title" class="form-control col-6" />
             <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <hr />
+        <div class="form-group row">
+            <label asp-for="ReleaseDate" class="control-label col-2"></label>
+            <input asp-for="ReleaseDate" class="form-control col-6" />
+            <span asp-validation-for="ReleaseDate" class="text-danger"></span>
         </div>
         <hr />
         <div class="form-group row">

@@ -58,7 +58,7 @@ namespace MovieFan.Controllers
         // POST: Movie/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult<Movies> Create([Bind("Title,Synopsis,CategoryId,RatingId, Picture")] Movies movie)
+        public ActionResult<Movies> Create([Bind("Title,Synopsis,CategoryId,RatingId, Picture,ReleaseDate")] Movies movie)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace MovieFan.Controllers
         // POST: Movie/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult<Movies> Edit(int id, [Bind("Title,Synopsis,CategoryId,RatingId,Picture")] Movies movie)
+        public ActionResult<Movies> Edit(int id, [Bind("Title,Synopsis,CategoryId,RatingId,Picture,ReleaseDate")] Movies movie)
         {
             try
             {
