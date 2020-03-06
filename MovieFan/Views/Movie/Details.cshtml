@@ -3,58 +3,56 @@
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int viewMode = ViewBag.viewMode ?? 1;
 }
 
-@if (ViewBag.create == null)
-{
-    <div id="divShow">
-        <div class="row">
-            <h4>Détails de @Model.Title</h4>
-            <div id="cmdEdit" class="btn btn-sm btn-primary ml-5">Editer</div>
-            <a asp-action="Index" class="btn btn-sm btn-info ml-3">Retour à la liste</a>
-        </div>
-        <hr />
-        <div class="row">
-            <label asp-for="ReleaseDate " class="control-label mr-3 col-2"></label>
-            <div class="col-8">
-                @String.Format("{0:dddd, dd MMMM yyyy}", Model.ReleaseDate)
-            </div>
-        </div>
-        <hr />
-        <div class="row">
-            <label asp-for="Synopsis " class="control-label mr-3 col-2"></label>
-            <div class="col-8">
-                @Model.Synopsis
-            </div>
-        </div>
-        <hr />
-        <div class="row">
-            <label asp-for="Category.Name " class="control-label mr-3 col-2"></label>
-            <div class="col-8">
-                @Model.Category.Name
-            </div>
-        </div>
-        <hr />
-        <div class="row">
-            <label asp-for="Rating.Name " class="control-label mr-3 col-2"></label>
-            <div class="col-8">
-                @Model.Rating.Name
-            </div>
-        </div>
-        <hr />
-        <div class="row">
-            <label asp-for="Likers " class="control-label mr-3 col-2"></label>
-            <div class="col-8">
-                @String.Join(", ", Model.Likers)
-            </div>
+<div id="divShow" @(viewMode != 1 ? "class=d-none" : "")>
+    <div class="row">
+        <h4>Détails de @Model.Title</h4>
+        <div id="cmdEdit" class="btn btn-sm btn-primary ml-5">Editer</div>
+        <a asp-action="Index" class="btn btn-sm btn-info ml-3">Retour à la liste</a>
+    </div>
+    <hr />
+    <div class="row">
+        <label asp-for="ReleaseDate " class="control-label mr-3 col-2"></label>
+        <div class="col-8">
+            @String.Format("{0:dddd, dd MMMM yyyy}", Model.ReleaseDate)
         </div>
     </div>
-}
+    <hr />
+    <div class="row">
+        <label asp-for="Synopsis " class="control-label mr-3 col-2"></label>
+        <div class="col-8">
+            @Model.Synopsis
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <label asp-for="Category.Name " class="control-label mr-3 col-2"></label>
+        <div class="col-8">
+            @Model.Category.Name
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <label asp-for="Rating.Name " class="control-label mr-3 col-2"></label>
+        <div class="col-8">
+            @Model.Rating.Name
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <label asp-for="Likers " class="control-label mr-3 col-2"></label>
+        <div class="col-8">
+            @String.Join(", ", Model.Likers)
+        </div>
+    </div>
+</div>
 
-<div id="divEdit" class=@(ViewBag.create != null ? "" : "d-none")>
-    <form asp-action="@(ViewBag.create != null ? "Create" : "Edit")">
+<div id="divEdit" class=@(viewMode != 1 ? "" : "d-none")>
+    <form asp-action="@(viewMode == 3 ? "Create" : "Edit")">
         <div class="row">
-            @if (ViewBag.create != null)
+            @if (viewMode == 3)
             {
                 <h4>Nouveau film</h4>
             }
@@ -64,7 +62,7 @@
             }
             <input type="submit" class="btn btn-sm btn-success ml-5" value="Enregistrer" />
             <div id="cmdCancel" class="btn btn-sm btn-info ml-3 mr-5">Annuler</div>
-            @if (ViewBag.create == null)
+            @if (viewMode != 3)
             {
                 <div id="cmdDelete" class="btn btn-sm btn-danger ml-5">Supprimer</div>
             }
@@ -84,7 +82,7 @@
         <hr />
         <div class="form-group row">
             <label asp-for="Synopsis" class="control-label col-2"></label>
-            <textarea asp-for="Synopsis" class="form-control col-6">@Model.Synopsis</textarea>
+            <textarea asp-for="Synopsis" class="form-control col-6 mr-2">@Model.Synopsis</textarea>
             <span asp-validation-for="Synopsis" class="text-danger"></span>
         </div>
         <hr />

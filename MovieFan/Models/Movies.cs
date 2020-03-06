@@ -30,6 +30,9 @@ namespace MovieFan.Models
         public class MoviesMetadata
         {
             [Display(Name ="Résumé")]
+            [MinLength(20,ErrorMessage ="Ah non! C'est un peu court, jeune homme!")]
+            [RegularExpression(@"^((?!fuck).)*$",ErrorMessage ="On ne parle pas comme ça sur MovieFan !!!")]
+
             public string Synopsis { get; set; }
             [Display(Name = "Titre")]
             public string Title { get; set; }

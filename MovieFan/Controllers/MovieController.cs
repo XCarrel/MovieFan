@@ -41,7 +41,7 @@ namespace MovieFan.Controllers
                 .Include(m => m.UserLikeMovie)
                 .ThenInclude(ulm => ulm.User)
                 .First(m => m.Id == id);
-            return View(movie);
+            return View("Details",movie);
         }
 
         // GET: Movie/Create
@@ -51,7 +51,7 @@ namespace MovieFan.Controllers
             ViewBag.Categories = categories;
             ViewBag.ratings = db.Ratings.ToList();
             Movies newmovie = new Movies();
-            ViewBag.create = true;
+            ViewBag.viewMode = 3;
             return View("Details", newmovie);
         }
 
@@ -74,42 +74,34 @@ namespace MovieFan.Controllers
             }
         }
 
-        // GET: Movie/Edit/5
-        public ActionResult Edit(int id)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         // POST: Movie/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult<Movies> Edit(int id, [Bind("Title,Synopsis,CategoryId,RatingId,Picture,ReleaseDate")] Movies movie)
         {
-            try
+            if (ModelState.IsValid)
+                try
+                {
+                    movie.Id = id; // because id isn't bound to the form inputs
+                    db.Update(movie);
+                    db.SaveChanges();
+                    TempData["flashmessage"] = "Changement enregistré";
+                    TempData["flashmessagetype"] = "info";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception e)
+                {
+                    TempData["flashmessage"] = "Problème...";
+                    TempData["flashmessagetype"] = "danger";
+                    Console.WriteLine(e.ToString());
+                    return View("Details", movie);
+                }
+            else
             {
-                movie.Id = id; // because id isn't bound to the form inputs
-                db.Update(movie);
-                db.SaveChanges();
-                TempData["flashmessage"] = "Changement enregistré";
-                TempData["flashmessagetype"] = "info";
-                return RedirectToAction(nameof(Index));
+                ViewBag.viewMode = 2;
+                return Details(id);
             }
-            catch (Exception e)
-            {
-                TempData["flashmessage"] = "Problème...";
-                TempData["flashmessagetype"] = "danger";
-                Console.WriteLine(e.ToString());
-                return Edit(id);
-            }
+
         }
 
         // POST: Movie/Delete/5
@@ -123,15 +115,14 @@ namespace MovieFan.Controllers
                 db.SaveChanges();
                 TempData["flashmessage"] = "Film supprimé";
                 TempData["flashmessagetype"] = "info";
-                return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
             {
                 TempData["flashmessage"] = "Problème...";
                 TempData["flashmessagetype"] = "danger";
                 Console.WriteLine(e.ToString());
-                return Edit(id);
             }
+            return RedirectToAction(nameof(Index));
         }
     }
 }
