@@ -15,23 +15,38 @@
         </div>
         <hr />
         <div class="row">
-            <label class="control-label mr-3">Date:</label>@String.Format("{0:dddd, dd MMMM yyyy}",Model.ReleaseDate)
+            <label asp-for="ReleaseDate " class="control-label mr-3 col-2"></label>
+            <div class="col-8">
+                @String.Format("{0:dddd, dd MMMM yyyy}", Model.ReleaseDate)
+            </div>
         </div>
         <hr />
         <div class="row">
-            @Model.Synopsis
+            <label asp-for="Synopsis " class="control-label mr-3 col-2"></label>
+            <div class="col-8">
+                @Model.Synopsis
+            </div>
         </div>
         <hr />
         <div class="row">
-            <label class="control-label mr-3">Catégorie:</label>@Model.Category.Name
+            <label asp-for="Category.Name " class="control-label mr-3 col-2"></label>
+            <div class="col-8">
+                @Model.Category.Name
+            </div>
         </div>
         <hr />
         <div class="row">
-            <label class="control-label mr-3">Rating:</label>@Model.Rating.Name
+            <label asp-for="Rating.Name " class="control-label mr-3 col-2"></label>
+            <div class="col-8">
+                @Model.Rating.Name
+            </div>
         </div>
         <hr />
         <div class="row">
-            <label class="control-label mr-3">Likers:</label>@String.Join(", ", Model.Likers)
+            <label asp-for="Likers " class="control-label mr-3 col-2"></label>
+            <div class="col-8">
+                @String.Join(", ", Model.Likers)
+            </div>
         </div>
     </div>
 }
@@ -74,12 +89,12 @@
         </div>
         <hr />
         <div class="form-group row">
-            <label asp-for="Category" class="control-label col-2"></label>
+            <label asp-for="Category.Name" class="control-label col-2"></label>
             <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control col-6"></select>
             <span asp-validation-for="Category" class="text-danger"></span>
         </div>
         <div class="form-group row">
-            <label asp-for="Rating" class="control-label col-2"></label>
+            <label asp-for="Rating.Name" class="control-label col-2"></label>
             @foreach (var item in ViewBag.ratings)
             {
                 <input asp-for="RatingId" type="radio" value="@item.Id" class="form-control ml-3 col-1" /><label class="control-label">@item.Name</label>
