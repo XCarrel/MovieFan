@@ -3,10 +3,10 @@
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    int viewMode = ViewBag.viewMode ?? 1;
+    Helpers.ViewModes viewMode = ViewBag.viewMode ?? Helpers.ViewModes.Show;
 }
 
-<div id="divShow" @(viewMode != 1 ? "class=d-none" : "")>
+<div id="divShow" @(viewMode != Helpers.ViewModes.Show ? "class=d-none" : "")>
     <div class="row">
         <h4>Détails de @Model.Title</h4>
         <div id="cmdEdit" class="btn btn-sm btn-primary ml-5">Editer</div>
@@ -49,10 +49,10 @@
     </div>
 </div>
 
-<div id="divEdit" class=@(viewMode != 1 ? "" : "d-none")>
-    <form asp-action="@(viewMode == 3 ? "Create" : "Edit")">
+<div id="divEdit" class=@(viewMode != Helpers.ViewModes.Show ? "" : "d-none")>
+    <form asp-action="@(viewMode == Helpers.ViewModes.Create ? "Create" : "Edit")">
         <div class="row">
-            @if (viewMode == 3)
+            @if (viewMode == Helpers.ViewModes.Create)
             {
                 <h4>Nouveau film</h4>
             }
@@ -62,7 +62,7 @@
             }
             <input type="submit" class="btn btn-sm btn-success ml-5" value="Enregistrer" />
             <div id="cmdCancel" class="btn btn-sm btn-info ml-3 mr-5">Annuler</div>
-            @if (viewMode != 3)
+            @if (viewMode != Helpers.ViewModes.Create)
             {
                 <div id="cmdDelete" class="btn btn-sm btn-danger ml-5">Supprimer</div>
             }

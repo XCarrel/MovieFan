@@ -35,6 +35,7 @@ namespace MovieFan.Models
 
             public string Synopsis { get; set; }
             [Display(Name = "Titre")]
+            [Required(ErrorMessage ="Il faut un titre")]
             public string Title { get; set; }
             public DateTime? Release { get; set; }
 

@@ -51,7 +51,9 @@ namespace MovieFan.Controllers
             ViewBag.Categories = categories;
             ViewBag.ratings = db.Ratings.ToList();
             Movies newmovie = new Movies();
-            ViewBag.viewMode = 3;
+            newmovie.Category = db.Categories.ToArray()[0];
+            newmovie.Rating = db.Ratings.ToArray()[0];
+            ViewBag.viewMode = Helpers.ViewModes.Create;
             return View("Details", newmovie);
         }
 
@@ -66,11 +68,15 @@ namespace MovieFan.Controllers
                 db.SaveChanges();
                 TempData["flashmessage"] = "Film Ajouté";
                 TempData["flashmessagetype"] = "info";
-                return RedirectToAction(nameof(Index));
+                ViewBag.viewMode = Helpers.ViewModes.Show;
+                return Details(movie.Id);
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                TempData["flashmessage"] = "Problème...";
+                TempData["flashmessagetype"] = "danger";
+                Console.WriteLine(e.ToString());
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -94,11 +100,12 @@ namespace MovieFan.Controllers
                     TempData["flashmessage"] = "Problème...";
                     TempData["flashmessagetype"] = "danger";
                     Console.WriteLine(e.ToString());
+                    ViewBag.viewMode = Helpers.ViewModes.Edit;
                     return View("Details", movie);
                 }
             else
             {
-                ViewBag.viewMode = 2;
+                ViewBag.viewMode = Helpers.ViewModes.Edit;
                 return Details(id);
             }
 
