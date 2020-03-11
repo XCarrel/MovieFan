@@ -5,29 +5,35 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieFan.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity;
 
 namespace MovieFan.Controllers
 {
 
     public class UserController : Controller
     {
-        readonly moviefanContext db;
+        readonly moviefanContext _db;
 
         public UserController(moviefanContext db)
         {
-            this.db = db;
+            _db = db;
         }
         // GET: User
         public ActionResult Index()
         {
-            List<Users> users = db.Users.ToList();
+            List<Users> users = _db.Users.ToList();
             return View(users);
         }
 
         // GET: User/Details/5
         public ActionResult Details(int id)
         {
-            Users user = db.Users.Find(id);
+            Users user = _db.Users
+                            .Include(u => u.UserLikeMovie)
+                            .ThenInclude(ulm => ulm.Movie)
+                            .First(u => u.Id == id);
             return View(user);
         }
 

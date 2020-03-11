@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using MovieFan.Models;
+using System.Security.Claims;
+using MovieFan.Data;
 
 namespace MovieFan.Areas.Identity.Pages.Account
 {
@@ -22,16 +24,19 @@ namespace MovieFan.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly moviefanContext _db;
+        private readonly MovieFanIdentityContext _idb;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, 
+        public LoginModel(SignInManager<IdentityUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<IdentityUser> userManager,
-            moviefanContext db)
+            moviefanContext db,
+            MovieFanIdentityContext idb)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _db = db;
+            _idb = idb;
         }
 
         [BindProperty]
@@ -87,6 +92,23 @@ namespace MovieFan.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    
+                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
+                    var userName = User.FindFirstValue(ClaimTypes.Name); // will give the user's userName
+
+                    IdentityUser applicationUser = await _userManager.GetUserAsync(User);
+                    string userEmail = applicationUser?.Email; // will give the user's Email
+                    if (!_db.Users.Any(u => u.Email == Input.Email)) // First time login
+                    {
+                        Users newuser = new Users();
+                        newuser.Firstname = "?";
+                        newuser.Lastname = "?";
+                        newuser.Email = Input.Email;
+                        _db.Users.Add(newuser);
+                        _db.SaveChanges();
+                    }
+
+                    _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
                 if (result.IsLockedOut)
