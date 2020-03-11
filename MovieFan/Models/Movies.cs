@@ -16,7 +16,7 @@ namespace MovieFan.Models
         public string Picture { get; set; }
         public string Synopsis { get; set; }
         public int CategoryId { get; set; }
-        public int RatingId { get; set; }
+        public int? RatingId { get; set; }
 
         public virtual Categories Category { get; set; }
         public virtual Ratings Rating { get; set; }

@@ -28,7 +28,7 @@ namespace MovieFan.Models
                 entity.ToTable("categories");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__categori__72E12F1B5B8FDB27")
+                    .HasName("UQ__categori__72E12F1B42490D08")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -53,9 +53,11 @@ namespace MovieFan.Models
                 entity.Property(e => e.CategoryId).HasColumnName("category_id");
 
                 entity.Property(e => e.Picture)
+                    .IsRequired()
                     .HasColumnName("picture")
                     .HasMaxLength(200)
-                    .IsUnicode(false);
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('default.jpg')");
 
                 entity.Property(e => e.RatingId).HasColumnName("rating_id");
 
@@ -83,7 +85,6 @@ namespace MovieFan.Models
                 entity.HasOne(d => d.Rating)
                     .WithMany(p => p.Movies)
                     .HasForeignKey(d => d.RatingId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_rating");
             });
 
@@ -92,7 +93,7 @@ namespace MovieFan.Models
                 entity.ToTable("ratings");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__ratings__72E12F1B46286360")
+                    .HasName("UQ__ratings__72E12F1B70198318")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
