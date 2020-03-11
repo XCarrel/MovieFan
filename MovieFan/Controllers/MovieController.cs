@@ -13,12 +13,12 @@ namespace MovieFan.Controllers
 {
     public class MovieController : Controller
     {
-        readonly moviefanContext db;
+        private readonly moviefanContext _db;
         private readonly SignInManager<IdentityUser> _signInManager;
 
         public MovieController(moviefanContext db, SignInManager<IdentityUser> signInManager)
         {
-            this.db = db;
+            _db = db;
             _signInManager = signInManager;
         }
 
@@ -26,7 +26,7 @@ namespace MovieFan.Controllers
         public ActionResult Index()
         {
             if (AccessDenied()) return Redirect("/");
-            List<Movies> allmovies = db.Movies
+            List<Movies> allmovies = _db.Movies
                 .Include(m => m.Category)
                 .Include(m => m.Rating)
                 .ToList();
@@ -37,10 +37,10 @@ namespace MovieFan.Controllers
         public ActionResult Details(int id)
         {
             if (AccessDenied()) return Redirect("/");
-            List<SelectListItem> categories = db.Categories.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }).ToList();
+            List<SelectListItem> categories = _db.Categories.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }).ToList();
             ViewBag.Categories = categories;
-            ViewBag.ratings = db.Ratings.ToList();
-            Movies movie = db.Movies
+            ViewBag.ratings = _db.Ratings.ToList();
+            Movies movie = _db.Movies
                 .Include(m => m.Category)
                 .Include(m => m.Rating)
                 .Include(m => m.UserLikeMovie)
@@ -53,12 +53,12 @@ namespace MovieFan.Controllers
         public ActionResult Create()
         {
             if (AccessDenied()) return Redirect("/");
-            List<SelectListItem> categories = db.Categories.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }).ToList();
+            List<SelectListItem> categories = _db.Categories.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }).ToList();
             ViewBag.Categories = categories;
-            ViewBag.ratings = db.Ratings.ToList();
+            ViewBag.ratings = _db.Ratings.ToList();
             Movies newmovie = new Movies();
-            newmovie.Category = db.Categories.ToArray()[0];
-            newmovie.Rating = db.Ratings.ToArray()[0];
+            newmovie.Category = _db.Categories.ToArray()[0];
+            newmovie.Rating = _db.Ratings.ToArray()[0];
             ViewBag.viewMode = Helpers.ViewModes.Create;
             return View("Details", newmovie);
         }
@@ -71,8 +71,8 @@ namespace MovieFan.Controllers
             if (AccessDenied()) return Redirect("/");
             try
             {
-                db.Movies.Add(movie);
-                db.SaveChanges();
+                _db.Movies.Add(movie);
+                _db.SaveChanges();
                 TempData["flashmessage"] = "Film Ajouté";
                 TempData["flashmessagetype"] = "info";
                 ViewBag.viewMode = Helpers.ViewModes.Show;
@@ -97,8 +97,8 @@ namespace MovieFan.Controllers
                 try
                 {
                     movie.Id = id; // because id isn't bound to the form inputs
-                    db.Update(movie);
-                    db.SaveChanges();
+                    _db.Update(movie);
+                    _db.SaveChanges();
                     TempData["flashmessage"] = "Changement enregistré";
                     TempData["flashmessagetype"] = "info";
                     return RedirectToAction(nameof(Index));
@@ -127,8 +127,8 @@ namespace MovieFan.Controllers
             if (AccessDenied()) return Redirect("/");
             try
             {
-                db.Remove(db.Movies.First(m => m.Id == id));
-                db.SaveChanges();
+                _db.Remove(_db.Movies.First(m => m.Id == id));
+                _db.SaveChanges();
                 TempData["flashmessage"] = "Film supprimé";
                 TempData["flashmessagetype"] = "info";
             }
@@ -144,10 +144,10 @@ namespace MovieFan.Controllers
         // Check if user is logged in
         private bool AccessDenied()
         {
-            Users u = Helpers.LoggedInUser(db, _signInManager);
-            if (u != null)
+            Users user = Helpers.LoggedInUser(_db, _signInManager);
+            if (user != null)
             {
-                ViewBag.UserName = u.FullName;
+                ViewBag.UserName = user.FullName;
                 return false;
             }
             else

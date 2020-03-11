@@ -15,6 +15,7 @@ namespace MovieFan.Models
         public string Lastname { get; set; }
         public string Email { get; set; }
         public byte? IsAdmin { get; set; }
+        public byte IsActive { get; set; }
 
         public virtual ICollection<UserLikeMovie> UserLikeMovie { get; set; }
     }

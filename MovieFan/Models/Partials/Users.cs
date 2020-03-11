@@ -9,10 +9,17 @@ namespace MovieFan.Models
     public partial class Users
     {
         [NotMapped]
-        public bool IsAdministrator 
+        public bool IsAdministrator
         {
             get => (this.IsAdmin == 1);
             set => this.IsAdmin = (value ? (byte)1 : (byte)0);
+        }
+
+        [NotMapped]
+        public bool ProfileOk
+        {
+            get => (this.IsActive == 1);
+            set => this.IsActive = (value ? (byte)1 : (byte)0);
         }
 
         public string FullName

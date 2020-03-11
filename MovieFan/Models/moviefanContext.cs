@@ -28,7 +28,7 @@ namespace MovieFan.Models
                 entity.ToTable("categories");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__categori__72E12F1BB371D7FB")
+                    .HasName("UQ__categori__72E12F1B78677E4A")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -93,7 +93,7 @@ namespace MovieFan.Models
                 entity.ToTable("ratings");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__ratings__72E12F1B87F4CBCF")
+                    .HasName("UQ__ratings__72E12F1B259008D9")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -146,7 +146,7 @@ namespace MovieFan.Models
                 entity.ToTable("users");
 
                 entity.HasIndex(e => e.Email)
-                    .HasName("UQ__users__AB6E616417AB46EB")
+                    .HasName("UQ__users__AB6E6164EF01DA8E")
                     .IsUnique();
 
                 entity.HasIndex(e => new { e.Firstname, e.Lastname })
@@ -166,6 +166,10 @@ namespace MovieFan.Models
                     .HasColumnName("firstname")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.IsActive)
+                    .HasColumnName("isActive")
+                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.IsAdmin).HasColumnName("isAdmin");
 
