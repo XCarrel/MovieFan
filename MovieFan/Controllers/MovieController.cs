@@ -7,21 +7,25 @@ using Microsoft.AspNetCore.Mvc;
 using MovieFan.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity;
 
 namespace MovieFan.Controllers
 {
     public class MovieController : Controller
     {
         readonly moviefanContext db;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public MovieController(moviefanContext db)
+        public MovieController(moviefanContext db, SignInManager<IdentityUser> signInManager)
         {
             this.db = db;
+            _signInManager = signInManager;
         }
 
         // GET: Movie
         public ActionResult Index()
         {
+            if (AccessDenied()) return Redirect("/");
             List<Movies> allmovies = db.Movies
                 .Include(m => m.Category)
                 .Include(m => m.Rating)
@@ -32,6 +36,7 @@ namespace MovieFan.Controllers
         // GET: Movie/Details/5
         public ActionResult Details(int id)
         {
+            if (AccessDenied()) return Redirect("/");
             List<SelectListItem> categories = db.Categories.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }).ToList();
             ViewBag.Categories = categories;
             ViewBag.ratings = db.Ratings.ToList();
@@ -47,6 +52,7 @@ namespace MovieFan.Controllers
         // GET: Movie/Create
         public ActionResult Create()
         {
+            if (AccessDenied()) return Redirect("/");
             List<SelectListItem> categories = db.Categories.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }).ToList();
             ViewBag.Categories = categories;
             ViewBag.ratings = db.Ratings.ToList();
@@ -62,6 +68,7 @@ namespace MovieFan.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult<Movies> Create([Bind("Title,Synopsis,CategoryId,RatingId, Picture,ReleaseDate")] Movies movie)
         {
+            if (AccessDenied()) return Redirect("/");
             try
             {
                 db.Movies.Add(movie);
@@ -85,6 +92,7 @@ namespace MovieFan.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult<Movies> Edit(int id, [Bind("Title,Synopsis,CategoryId,RatingId,Picture,ReleaseDate")] Movies movie)
         {
+            if (AccessDenied()) return Redirect("/");
             if (ModelState.IsValid)
                 try
                 {
@@ -116,6 +124,7 @@ namespace MovieFan.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
         {
+            if (AccessDenied()) return Redirect("/");
             try
             {
                 db.Remove(db.Movies.First(m => m.Id == id));
@@ -130,6 +139,23 @@ namespace MovieFan.Controllers
                 Console.WriteLine(e.ToString());
             }
             return RedirectToAction(nameof(Index));
+        }
+
+        // Check if user is logged in
+        private bool AccessDenied()
+        {
+            Users u = Helpers.LoggedInUser(db, _signInManager);
+            if (u != null)
+            {
+                ViewBag.UserName = u.FullName;
+                return false;
+            }
+            else
+            {
+                TempData["flashmessage"] = "Cette section est réservée à nos membres...";
+                TempData["flashmessagetype"] = "info";
+                return true;
+            }
         }
     }
 }

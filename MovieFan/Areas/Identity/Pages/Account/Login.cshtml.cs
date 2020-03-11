@@ -87,23 +87,7 @@ namespace MovieFan.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    Users user;
-
-                    if (_db.Users.Any(u => u.Email == Input.Email))
-                    {
-                        user = _db.Users.First(u => u.Email == Input.Email);
-                        return LocalRedirect(returnUrl);
-                    }
-                    else  // First time login
-                    {
-                        user = new Users();
-                        user.Firstname = "Prénom de "+Input.Email;
-                        user.Lastname = "Nom de " + Input.Email;
-                        user.Email = Input.Email;
-                        _db.Users.Add(user);
-                        _db.SaveChanges();
-                        return Redirect($"/User/Details/{user.Id}");
-                    }
+                    return LocalRedirect(returnUrl);
                 }
                 if (result.IsLockedOut)
                 {
