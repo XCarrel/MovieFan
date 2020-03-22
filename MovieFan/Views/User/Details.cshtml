@@ -27,6 +27,6 @@
     </div>
 <hr />
 <div>
-    @Html.ActionLink("Edit", "Edit", new { Model.Id }) |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="ManageMovies" asp-route-id="@Model.Id" class="btn btn-sm btn-primary ml-5">Gérer les films</a>
+    <a asp-action="Index" class="btn btn-sm btn-info ml-3">Retour à la liste</a>
 </div>

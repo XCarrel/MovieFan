@@ -103,5 +103,11 @@ namespace MovieFan.Controllers
                 return View();
             }
         }
+
+        public ActionResult ManageMovies(int id)
+        {
+            Users user = db.Users.Find(id);
+            return View(user);
+        }
     }
 }
