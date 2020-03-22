@@ -106,7 +106,10 @@ namespace MovieFan.Controllers
 
         public ActionResult ManageMovies(int id)
         {
-            Users user = db.Users.Find(id);
+            Users user = db.Users
+                            .Include(u => u.UserLikeMovie)
+                            .ThenInclude(ulm => ulm.Movie)
+                            .SingleOrDefault(u => u.Id == id);
             return View(user);
         }
     }
