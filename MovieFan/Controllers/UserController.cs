@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieFan.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace MovieFan.Controllers
 {
@@ -27,7 +28,10 @@ namespace MovieFan.Controllers
         // GET: User/Details/5
         public ActionResult Details(int id)
         {
-            Users user = db.Users.Find(id);
+            Users user = db.Users
+                            .Include(u => u.UserLikeMovie)
+                            .ThenInclude(ulm => ulm.Movie)
+                            .SingleOrDefault(u => u.Id == id);
             return View(user);
         }
 

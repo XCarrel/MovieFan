@@ -5,13 +5,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div>
-    <h4>Détails concernant @Model.Firstname @Model.Lastname</h4>
-    <hr />
-    <div class="row">
-        @(Model.IsAdministrator ? "Est un administrateur" : "N'est pas un administrateur")
+    <div>
+        <div>
+            <h4>Détails concernant @Model.Firstname @Model.Lastname</h4>
+            <hr />
+            <div class="row">
+                @(Model.IsAdministrator ? "Est un administrateur" : "N'est pas un administrateur")
+            </div>
+            <hr />
+            <h4>Films suivis</h4>
+            <div class="row border" style="background-color:#e5e2e2"><div class="col-2">Titre</div><div class="col-2">Note</div><div class="col-6">Commentaires</div></div>
+            @foreach (UserLikeMovie ulm in Model.UserLikeMovie)
+            {
+                <div class="row border">
+                    <div class="col-2">@ulm.Movie.Title</div>
+                    <div class="col-2">@for (int i = 0; i < ulm.Stars; i++) {<i class="fas fa-star" style="color:#ffd800;"></i>}</div>
+                    <div class="col-6">@ulm.Comment</div>
+                </div>
+            }
+        </div>
     </div>
-</div>
 <hr />
 <div>
     @Html.ActionLink("Edit", "Edit", new { Model.Id }) |
