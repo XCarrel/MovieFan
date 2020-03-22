@@ -20,16 +20,23 @@ namespace MovieFan.Controllers
         }
 
         // GET: Movie
-        public ActionResult Index()
+        public ActionResult Index(int CategoryId)
         {
-            List<SelectListItem> categories = db.Categories.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }).ToList();
+            List<SelectListItem> categories = db.Categories.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name , Selected = (x.Id == CategoryId)}).ToList();
             categories.Insert(0, new SelectListItem { Value = "0", Text = "(Toutes)" });
             ViewBag.Categories = categories;
-            List<Movies> allmovies = db.Movies
-                .Include(m => m.Category)
-                .Include(m => m.Rating)
-                .ToList();
-            return View(allmovies);
+            List<Movies> movies;
+            if (CategoryId == 0)
+                movies = db.Movies
+                    .Include(m => m.Category)
+                    .Include(m => m.Rating)
+                    .ToList();
+            else
+                movies = db.Movies.Where(m => m.CategoryId == CategoryId)
+                    .Include(m => m.Category)
+                    .Include(m => m.Rating)
+                    .ToList();
+            return View(movies);
         }
 
         // GET: Movie/Details/5
@@ -44,7 +51,7 @@ namespace MovieFan.Controllers
                 .Include(m => m.UserLikeMovie)
                 .ThenInclude(ulm => ulm.User)
                 .First(m => m.Id == id);
-            return View("Details",movie);
+            return View("Details", movie);
         }
 
         // GET: Movie/Create
