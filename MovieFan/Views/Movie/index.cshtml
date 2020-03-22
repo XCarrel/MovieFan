@@ -6,6 +6,10 @@
 
 <div class="container">
     <h1>Liste des films</h1>
+    <div class="form-group row">
+        <label for="CategoryId" class="control-label col-2">Catégorie</label>
+        <select id="CategoryId" name="CategoryId" asp-items="ViewBag.Categories" class="form-control col-6"></select>
+    </div>
     @foreach (Movies movie in Model)
     {
         <a href="/Movie/Details/@movie.Id">

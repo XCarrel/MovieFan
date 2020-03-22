@@ -22,6 +22,9 @@ namespace MovieFan.Controllers
         // GET: Movie
         public ActionResult Index()
         {
+            List<SelectListItem> categories = db.Categories.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name }).ToList();
+            categories.Insert(0, new SelectListItem { Value = "0", Text = "(Toutes)" });
+            ViewBag.Categories = categories;
             List<Movies> allmovies = db.Movies
                 .Include(m => m.Category)
                 .Include(m => m.Rating)
