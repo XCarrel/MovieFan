@@ -6,6 +6,12 @@
     ]
   },
   {
+    "outputFileName": "wwwroot/js/movieindex.min.js",
+    "inputFiles": [
+      "js/movieindex.js"
+    ]
+  },
+  {
     "outputFileName": "wwwroot/js/movieFan.min.js",
     "inputFiles": [
       "js/movieFan.js"
