@@ -112,5 +112,21 @@ namespace MovieFan.Controllers
                             .SingleOrDefault(u => u.Id == id);
             return View(user);
         }
+        public ActionResult AddMovieReview(int id)
+        {
+            Users user = db.Users
+                            .Include(u => u.UserLikeMovie)
+                            .ThenInclude(ulm => ulm.Movie)
+                            .SingleOrDefault(u => u.Id == id);
+            return View(user);
+        }
+        public ActionResult EditMovieReview(int id)
+        {
+            UserLikeMovie ulm = db.UserLikeMovie
+                            .Include(ulm => ulm.User)
+                            .Include(ulm => ulm.Movie)
+                            .SingleOrDefault(ulm => ulm.Id == id);
+            return View(ulm);
+        }
     }
 }

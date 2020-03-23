@@ -12,6 +12,12 @@
     ]
   },
   {
+    "outputFileName": "wwwroot/js/managemovies.min.js",
+    "inputFiles": [
+      "js/managemovies.js"
+    ]
+  },
+  {
     "outputFileName": "wwwroot/js/movieFan.min.js",
     "inputFiles": [
       "js/movieFan.js"

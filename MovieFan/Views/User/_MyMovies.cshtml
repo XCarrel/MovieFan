@@ -4,7 +4,7 @@
 <div class="row border" style="background-color:#e5e2e2"><div class="col-2">Titre</div><div class="col-2">Note</div><div class="col-6">Commentaires</div></div>
 @foreach (UserLikeMovie ulm in Model.UserLikeMovie)
 {
-    <div class="row border">
+    <div class="row border clickable" data-href="/User/EditMovieReview/@ulm.Id">
         <div class="col-2">@ulm.Movie.Title</div>
         <div class="col-2">@for (int i = 0; i < ulm.Stars; i++)
         {<i class="fas fa-star" style="color:#ffd800;"></i>}</div>
