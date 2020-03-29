@@ -119,7 +119,9 @@ namespace MovieFan.Controllers
                             .Include(u => u.UserLikeMovie)
                             .ThenInclude(ulm => ulm.Movie)
                             .SingleOrDefault(u => u.Id == id);
-            List<SelectListItem> movies = db.Movies.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Title }).ToList();
+            List<int> alreadyReviewed = db.UserLikeMovie.Where(u => u.UserId == user.Id).Select(u => u.MovieId).ToList();
+
+            List<SelectListItem> movies = db.Movies.Where(m => !alreadyReviewed.Contains(m.Id)).Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Title }).ToList();
             ViewBag.Movies = movies;
 
             return View(user);
