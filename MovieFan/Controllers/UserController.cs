@@ -111,7 +111,7 @@ namespace MovieFan.Controllers
                             .Include(u => u.UserLikeMovie)
                             .ThenInclude(ulm => ulm.Movie)
                             .SingleOrDefault(u => u.Id == id);
-            return View(user);
+            return View("ManageMovies",user);
         }
         public ActionResult AddMovieReview(int id)
         {
@@ -124,6 +124,20 @@ namespace MovieFan.Controllers
 
             return View(user);
         }
+
+        public ActionResult NewMovieReview (int movieId, int stars, string review, int userId)
+        {
+            UserLikeMovie ulm = new UserLikeMovie();
+            ulm.MovieId = movieId;
+            ulm.UserId = userId;
+            ulm.Stars = stars;
+            ulm.Comment = review;
+            ulm.HasSeen = 1;
+            db.UserLikeMovie.Add(ulm);
+            db.SaveChanges();
+            return ManageMovies(userId);
+        }
+
         public ActionResult EditMovieReview(int id)
         {
             UserLikeMovie ulm = db.UserLikeMovie
