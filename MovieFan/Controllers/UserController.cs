@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieFan.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MovieFan.Controllers
 {
@@ -118,6 +119,9 @@ namespace MovieFan.Controllers
                             .Include(u => u.UserLikeMovie)
                             .ThenInclude(ulm => ulm.Movie)
                             .SingleOrDefault(u => u.Id == id);
+            List<SelectListItem> movies = db.Movies.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Title }).ToList();
+            ViewBag.Movies = movies;
+
             return View(user);
         }
         public ActionResult EditMovieReview(int id)

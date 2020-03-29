@@ -7,3 +7,28 @@
 
 <h1>Nouvelle revue de film par @Model.FullName</h1>
 
+<form asp-action="NewMovieReview">
+    <input type="submit" class="btn btn-sm btn-success ml-5" value="Enregistrer" />
+    <div id="cmdCancel" class="btn btn-sm btn-info ml-3 mr-5">Annuler</div>
+    <hr />
+    <div class="form-group row">
+        <label class="control-label mr-3 col-2">
+            Film
+        </label>
+        <select name="movieId" asp-items="ViewBag.Movies" class="form-control col-6"></select>
+    </div>
+    <div class="form-group row">
+        <label class="control-label mr-3 col-2">
+            Note
+        </label>
+        <input name="stars" class="form-control col-6" type="number" min="0" max="5" required />
+    </div>
+    <div class="form-group row">
+        <label class="control-label mr-3 col-2">
+            Critique
+        </label>
+        <textarea name="review" class="form-control col-6 mr-2" required></textarea>
+    </div>
+
+    <hr />
+</form>
